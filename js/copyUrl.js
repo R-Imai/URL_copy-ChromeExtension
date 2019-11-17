@@ -16,39 +16,40 @@ function copyUrl(){
 
 function keyDownEvent(e) {
   const keyVal = e.key;
+  const keyCode = e.keyCode;
   const isAlt = e.altKey;
   const isCtrl = e.ctrlKey;
   const isCmd = e.metaKey;
   const isShift = e.shiftKey;
   const triggerArr = [isAlt, isCtrl, isCmd, isShift]
-  console.log(triggerArr);
-  console.log(keyVal);
-  if (triggerArr[copyConfig.triggerIndex] && keyVal === copyConfig.key){
+  if (triggerArr[copyConfig.triggerIndex] && keyCode === copyConfig.keyCode){
     copyUrl();
-    console.log('copy!!!')
+    console.log('URL copy!')
   }
 }
 
 const copyConfig = {
-  key: "c",
+  key: 'c',
+  keyCode: 67,
   triggerIndex: 0
 }
 
-function setCopyConfig(key, trigger) {
+function setCopyConfig(key, trigger, keyCode) {
   copyConfig.key = key !== ''? key: 'c';
+  copyConfig.keyCode = Number.isNaN(keyCode) ? 67 : Number(keyCode);
   copyConfig.triggerIndex = Number.isNaN(trigger) ? 0 : Number(trigger);
-  console.log(copyConfig);
 }
 
 document.addEventListener('keydown', keyDownEvent);
+
 chrome.runtime.onMessage.addListener(function(msg) {
-  if(msg.trigger !== undefined && msg.key !== undefined){
-    setCopyConfig(msg.key, msg.trigger);
+  if(msg.trigger !== undefined && msg.key !== undefined && msg.keyCode !== undefined){
+    setCopyConfig(msg.key, msg.trigger, msg.keyCode);
   }
 });
 
-chrome.storage.local.get(["trigger", "key", "hoge"], function(items) {
-  if(items.trigger !== undefined && items.key !== undefined){
-    setCopyConfig(items.key, items.trigger);
+chrome.storage.local.get(["trigger", "key", "keyCode"], function(items) {
+  if(items.trigger !== undefined && items.key !== undefined && items.keyCode !== undefined){
+    setCopyConfig(items.key, items.trigger, items.keyCode);
   }
 });
