@@ -11,7 +11,7 @@ function copyFunc(val){
 }
 
 function copyUrl(){
-  copyFunc(decodeURI(location.href))
+  copyFunc(decodeURI(location.href).replace(/ /g, '%20'));
 }
 
 function keyDownEvent(e) {

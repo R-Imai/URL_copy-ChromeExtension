@@ -1,7 +1,7 @@
 {
   "name": "URL nonEncode copy",
   "description": "URLをエンコードせずにコピーします。",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "content_scripts": [{
     "js": ["js/copyUrl.js"],
     "matches": ["http://*/*", "https://*/*"]
