@@ -24,7 +24,7 @@ function keyDownEvent(e) {
   const triggerArr = [isAlt, isCtrl, isCmd, isShift]
   if (triggerArr[copyConfig.triggerIndex] && keyCode === copyConfig.keyCode){
     copyUrl();
-    console.log('URL copy!')
+    console.info('URL copy!');
   }
 }
 

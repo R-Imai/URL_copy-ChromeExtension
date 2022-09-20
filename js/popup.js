@@ -21,10 +21,16 @@ function onClick() {
   const keyVal = document.getElementById("keyInput").value;
   const keyCode = document.getElementById("keyCode").value;
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {
-      trigger: trigger,
-      key: keyVal,
-      keyCode: keyCode
+    tabs.forEach((tabInfo) => {
+      chrome.tabs.sendMessage(tabInfo.id, {
+        trigger: trigger,
+        key: keyVal,
+        keyCode: keyCode
+      }).then((response)=> {
+        console.info('OK');
+      }).catch((error)=> {
+        console.error('error', error);
+      });
     });
   });
   setVal(trigger, keyVal, keyCode);
